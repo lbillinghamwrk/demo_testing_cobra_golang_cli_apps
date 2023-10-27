@@ -8,7 +8,10 @@ import (
 
 var rootCmd = &cobra.Command{
   Use:  "example",
-  RunE: func(cmd *cobra.Command, args []string) error {
+  RunE: RootCmdRunE,
+}
+
+func RootCmdRunE(cmd *cobra.Command, args []string) error {
     t, err := cmd.Flags().GetBool("toggle")
 
     if err != nil {
@@ -21,7 +24,10 @@ var rootCmd = &cobra.Command{
     }
 
     return errors.New("not ok")
-  },
+}
+
+func RootCmdFlags(cmd *cobra.Command) {
+  cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func Execute() {
@@ -29,6 +35,5 @@ func Execute() {
 }
 
 func init() {
-  rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+  RootCmdFlags(rootCmd)
 }
-
